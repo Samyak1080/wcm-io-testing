@@ -62,4 +62,9 @@ class MockDesigner implements Designer {
     return null;
   }
 
+  @Override
+  public Design getDefaultDesign() {
+    return null;
+  }
+
 }

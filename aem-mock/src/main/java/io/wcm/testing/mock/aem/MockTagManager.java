@@ -488,4 +488,14 @@ class MockTagManager implements TagManager {
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public Iterable<Tag> findTagsByKeyword(String arg0, Locale arg1, String arg2) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public List<String> getSupportedLanguageCodes() {
+    throw new UnsupportedOperationException();
+  }
+
 }
