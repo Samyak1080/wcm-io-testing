@@ -235,12 +235,6 @@
       <scope>compile</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-imaging</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
     <!-- Include AEM and OSGi APIs in 'provided' scope to let the consuming project decide which to use -->
     <!-- (other versions of this APIs use other artifact ids) -->
     <dependency>
@@ -294,7 +288,7 @@
       <dependency>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-        <version>6.2.0.0002</version>
+        <version>6.4.0.0000-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
