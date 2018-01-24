@@ -62,7 +62,7 @@ class MockDesigner implements Designer {
     return null;
   }
 
-  @Override
+  // AEM 6.4
   public Design getDefaultDesign() {
     return null;
   }
