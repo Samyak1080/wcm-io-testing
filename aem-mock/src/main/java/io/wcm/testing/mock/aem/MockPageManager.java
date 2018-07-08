@@ -50,7 +50,7 @@ import com.day.cq.wcm.api.msm.Blueprint;
 /**
  * Mock implementation of {@link PageManager}
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "null" })
 class MockPageManager extends SlingAdaptable implements PageManager {
 
   private final ResourceResolver resourceResolver;

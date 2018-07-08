@@ -25,6 +25,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
 import org.apache.sling.testing.mock.sling.context.SlingContextImpl;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ConsumerType;
 
 import com.day.cq.dam.api.AssetManager;
@@ -60,12 +62,13 @@ public class AemContextImpl extends SlingContextImpl {
   }
 
   @Override
-  protected void setResourceResolverType(ResourceResolverType resourceResolverType) {
+  protected void setResourceResolverType(@Nullable ResourceResolverType resourceResolverType) {
     super.setResourceResolverType(resourceResolverType);
   }
 
+  @SuppressWarnings("null")
   @Override
-  protected ResourceResolverFactory newResourceResolverFactory() {
+  protected @NotNull ResourceResolverFactory newResourceResolverFactory() {
     return ContextResourceResolverFactory.get(this.resourceResolverType, bundleContext());
   }
 
@@ -82,22 +85,25 @@ public class AemContextImpl extends SlingContextImpl {
   /**
    * @return Page manager
    */
-  public PageManager pageManager() {
+  @SuppressWarnings("null")
+  public @NotNull PageManager pageManager() {
     return resourceResolver().adaptTo(PageManager.class);
   }
 
   /**
    * @return Asset manager
    */
-  public AssetManager assetManager() {
+  @SuppressWarnings("null")
+  public @NotNull AssetManager assetManager() {
     return resourceResolver().adaptTo(AssetManager.class);
   }
 
   /**
    * @return Content builder for building test content
    */
+  @SuppressWarnings("null")
   @Override
-  public ContentBuilder create() {
+  public @NotNull ContentBuilder create() {
     if (this.contentBuilder == null) {
       this.contentBuilder = new ContentBuilder(resourceResolver());
     }
@@ -108,7 +114,7 @@ public class AemContextImpl extends SlingContextImpl {
    * @return Current page from {@link ComponentContext}. If none is set the page containing the current resource.
    *         Null if no containing page exists.
    */
-  public Page currentPage() {
+  public @Nullable Page currentPage() {
     ComponentContext context = WCMUtils.getComponentContext(request());
     if (context != null) {
       return context.getPage();
@@ -126,7 +132,7 @@ public class AemContextImpl extends SlingContextImpl {
    * @param pagePath Page path
    * @return currentPage
    */
-  public Page currentPage(String pagePath) {
+  public @Nullable Page currentPage(@Nullable String pagePath) {
     if (pagePath != null) {
       Page page = pageManager().getPage(pagePath);
       if (page == null) {
@@ -147,7 +153,7 @@ public class AemContextImpl extends SlingContextImpl {
    * @param page Page
    * @return currentPage
    */
-  public Page currentPage(Page page) {
+  public @Nullable Page currentPage(@Nullable Page page) {
     if (page != null) {
       ComponentContext wcmComponentContext = new MockComponentContext(page, request());
       request.setAttribute(ComponentContext.CONTEXT_ATTR_NAME, wcmComponentContext);
@@ -165,8 +171,9 @@ public class AemContextImpl extends SlingContextImpl {
    * Create unique root paths for unit tests (and clean them up after the test run automatically).
    * @return Unique root path helper
    */
+  @SuppressWarnings("null")
   @Override
-  public UniqueRoot uniqueRoot() {
+  public @NotNull UniqueRoot uniqueRoot() {
     if (uniqueRoot == null) {
       uniqueRoot = new UniqueRoot(this);
     }

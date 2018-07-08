@@ -35,6 +35,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.testing.mock.sling.loader.ContentLoader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ProviderType;
 
 import com.day.cq.commons.jcr.JcrConstants;
@@ -58,7 +60,7 @@ import com.google.common.collect.ImmutableMap;
 @ProviderType
 public final class ContentBuilder extends org.apache.sling.testing.mock.sling.builder.ContentBuilder {
 
-  static final String DUMMY_TEMPLATE = "/apps/sample/templates/template1";
+  static final @NotNull String DUMMY_TEMPLATE = "/apps/sample/templates/template1";
 
   // cache generated dummy images in cache because often the a dummy image with the same parameter is reused.
   private static final Map<String, byte[]> DUMMY_IMAGE_CACHE = new HashMap<>();
@@ -66,7 +68,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
   /**
    * @param resourceResolver Resource resolver
    */
-  public ContentBuilder(ResourceResolver resourceResolver) {
+  public ContentBuilder(@NotNull ResourceResolver resourceResolver) {
     super(resourceResolver);
   }
 
@@ -76,7 +78,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param path Page path
    * @return Page object
    */
-  public Page page(String path) {
+  @SuppressWarnings("null")
+  public @NotNull Page page(@NotNull String path) {
     return page(path, DUMMY_TEMPLATE, ValueMap.EMPTY);
   }
 
@@ -87,7 +90,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param template Template
    * @return Page object
    */
-  public Page page(String path, String template) {
+  @SuppressWarnings("null")
+  public @NotNull Page page(@NotNull String path, @NotNull String template) {
     return page(path, template, ValueMap.EMPTY);
   }
 
@@ -99,7 +103,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param title Page title
    * @return Page object
    */
-  public Page page(String path, String template, String title) {
+  @SuppressWarnings("null")
+  public @NotNull Page page(@NotNull String path, @NotNull String template, @NotNull String title) {
     return page(path, template, ImmutableMap.<String, Object>builder()
         .put(NameConstants.PN_TITLE, title)
         .build());
@@ -113,8 +118,12 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param contentProperties Properties for <code>jcr:content</code> node.
    * @return Page object
    */
-  public Page page(String path, String template, Map<String, Object> contentProperties) {
+  @SuppressWarnings("null")
+  public @NotNull Page page(@NotNull String path, @NotNull String template, @NotNull Map<String, Object> contentProperties) {
     String parentPath = ResourceUtil.getParent(path);
+    if (parentPath == null) {
+      throw new IllegalArgumentException("Path has no parent: " + path);
+    }
     ensureResourceExists(parentPath);
     String name = ResourceUtil.getName(path);
     try {
@@ -139,7 +148,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Asset asset(String path, String classpathResource, String mimeType) {
+  public @NotNull Asset asset(@NotNull String path, @NotNull String classpathResource, @NotNull String mimeType) {
     return asset(path, classpathResource, mimeType, null);
   }
 
@@ -151,7 +160,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param metadata Asset metadata
    * @return Asset
    */
-  public Asset asset(String path, String classpathResource, String mimeType, Map<String, Object> metadata) {
+  public @NotNull Asset asset(@NotNull String path, @NotNull String classpathResource, @NotNull String mimeType, @Nullable Map<String, Object> metadata) {
     try (InputStream is = ContentLoader.class.getResourceAsStream(classpathResource)) {
       if (is == null) {
         throw new IllegalArgumentException("Classpath resource not found: " + classpathResource);
@@ -171,7 +180,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Asset asset(String path, int width, int height, String mimeType) {
+  public @NotNull Asset asset(@NotNull String path, int width, int height, @NotNull String mimeType) {
     return asset(path, width, height, mimeType, null);
   }
 
@@ -184,7 +193,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param metadata Asset metadata
    * @return Asset
    */
-  public Asset asset(String path, int width, int height, String mimeType, Map<String, Object> metadata) {
+  public @NotNull Asset asset(@NotNull String path, int width, int height, @NotNull String mimeType, @Nullable Map<String, Object> metadata) {
     try (InputStream is = createDummyImage(width, height, mimeType)) {
       return asset(path, is, mimeType, metadata);
     }
@@ -200,7 +209,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Asset asset(String path, InputStream inputStream, String mimeType) {
+  public @NotNull Asset asset(@NotNull String path, @NotNull InputStream inputStream, @NotNull String mimeType) {
     return asset(path, inputStream, mimeType, null);
   }
 
@@ -212,7 +221,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param metadata Asset metadata
    * @return Asset
    */
-  public Asset asset(String path, InputStream inputStream, String mimeType, Map<String, Object> metadata) {
+  @SuppressWarnings("null")
+  public @NotNull Asset asset(@NotNull String path, @NotNull InputStream inputStream, @NotNull String mimeType, @Nullable Map<String, Object> metadata) {
     AssetManager assetManager = resourceResolver.adaptTo(AssetManager.class);
     Asset asset = assetManager.createAsset(path, inputStream, mimeType, true);
 
@@ -236,7 +246,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Input stream
    */
-  public static InputStream createDummyImage(int width, int height, String mimeType) {
+  public static @NotNull InputStream createDummyImage(int width, int height, @NotNull String mimeType) {
     String key = width + "x" + height + ":" + mimeType;
     byte[] data = DUMMY_IMAGE_CACHE.get(key);
     if (data == null) {
@@ -262,7 +272,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Rendition assetRendition(Asset asset, String name, String classpathResource, String mimeType) {
+  public @NotNull Rendition assetRendition(@NotNull Asset asset, @NotNull String name, @NotNull String classpathResource, @NotNull String mimeType) {
     try (InputStream is = ContentLoader.class.getResourceAsStream(classpathResource)) {
       if (is == null) {
         throw new IllegalArgumentException("Classpath resource not found: " + classpathResource);
@@ -283,7 +293,7 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Rendition assetRendition(Asset asset, String name, int width, int height, String mimeType) {
+  public @NotNull Rendition assetRendition(@NotNull Asset asset, @NotNull String name, int width, int height, @NotNull String mimeType) {
     try (InputStream is = createDummyImage(width, height, mimeType)) {
       return assetRendition(asset, name, is, mimeType);
     }
@@ -300,7 +310,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param mimeType Mime type
    * @return Asset
    */
-  public Rendition assetRendition(Asset asset, String name, InputStream inputStream, String mimeType) {
+  @SuppressWarnings("null")
+  public @NotNull Rendition assetRendition(@NotNull Asset asset, @NotNull String name, @NotNull InputStream inputStream, @NotNull String mimeType) {
     return asset.addRendition(name, inputStream, mimeType);
   }
 
@@ -309,7 +320,8 @@ public final class ContentBuilder extends org.apache.sling.testing.mock.sling.bu
    * @param tagId Tag ID. May include namespace (separated by ":"). May include nested levels (separated by "/").
    * @return Tag
    */
-  public Tag tag(String tagId) {
+  @SuppressWarnings("null")
+  public @NotNull Tag tag(@NotNull String tagId) {
     TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
     String tagTitle = ResourceUtil.getName(StringUtils.substringAfter(tagId, ":"));
     try {

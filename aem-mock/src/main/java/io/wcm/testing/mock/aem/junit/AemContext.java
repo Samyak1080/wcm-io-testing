@@ -27,6 +27,8 @@ import org.apache.sling.testing.mock.osgi.context.ContextPlugins;
 import org.apache.sling.testing.mock.osgi.context.OsgiContextImpl;
 import org.apache.sling.testing.mock.sling.MockSling;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -63,7 +65,7 @@ public final class AemContext extends AemContextImpl implements TestRule {
    * </ul>
    * @param resourceResolverTypes Resource resolver type(s).
    */
-  public AemContext(final ResourceResolverType... resourceResolverTypes) {
+  public AemContext(@NotNull final ResourceResolverType... resourceResolverTypes) {
     this(new ContextPlugins(), null, resourceResolverTypes);
   }
 
@@ -83,7 +85,8 @@ public final class AemContext extends AemContextImpl implements TestRule {
    *          built-in setup rules are executed.
    * @param resourceResolverTypes Resource resolver type(s).
    */
-  public <T extends OsgiContextImpl> AemContext(final ContextCallback<T> afterSetUpCallback, final ResourceResolverType... resourceResolverTypes) {
+  public <T extends OsgiContextImpl> AemContext(@NotNull final ContextCallback<T> afterSetUpCallback,
+      @NotNull final ResourceResolverType... resourceResolverTypes) {
     this(new ContextPlugins(afterSetUpCallback), null, resourceResolverTypes);
   }
 
@@ -106,9 +109,9 @@ public final class AemContext extends AemContextImpl implements TestRule {
    *          built-in teardown rules are executed.
    * @param resourceResolverTypes Resource resolver type(s).
    */
-  public <U extends OsgiContextImpl, V extends OsgiContextImpl> AemContext(final ContextCallback<U> afterSetUpCallback,
-      final ContextCallback<V> beforeTearDownCallback,
-      final ResourceResolverType... resourceResolverTypes) {
+  public <U extends OsgiContextImpl, V extends OsgiContextImpl> AemContext(@NotNull final ContextCallback<U> afterSetUpCallback,
+      @NotNull final ContextCallback<V> beforeTearDownCallback,
+      @NotNull final ResourceResolverType... resourceResolverTypes) {
     this(new ContextPlugins(afterSetUpCallback, beforeTearDownCallback), null, resourceResolverTypes);
   }
 
@@ -127,9 +130,9 @@ public final class AemContext extends AemContextImpl implements TestRule {
    * @param resourceResolverFactoryActivatorProps Resource resolver factory activator properties
    * @param resourceResolverTypes Resource resolver type(s).
    */
-  AemContext(final ContextPlugins contextPlugins,
-      final Map<String, Object> resourceResolverFactoryActivatorProps,
-      final ResourceResolverType... resourceResolverTypes) {
+  AemContext(@NotNull final ContextPlugins contextPlugins,
+      @Nullable final Map<String, Object> resourceResolverFactoryActivatorProps,
+      @NotNull final ResourceResolverType... resourceResolverTypes) {
 
     this.plugins = contextPlugins;
 

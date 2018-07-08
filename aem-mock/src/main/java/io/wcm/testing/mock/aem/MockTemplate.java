@@ -35,6 +35,7 @@ import com.day.cq.wcm.api.Template;
 /**
  * Mock implementation of {@link Template}.
  */
+@SuppressWarnings("null")
 class MockTemplate extends ResourceWrapper implements Template {
 
   private final Resource resource;

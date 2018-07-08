@@ -45,6 +45,7 @@ import com.day.cq.wcm.api.NameConstants;
 /**
  * Mock implementation of {@link Tag}.
  */
+@SuppressWarnings("null")
 class MockTag extends SlingAdaptable implements Tag, Comparable<Tag> {
 
   /** resource being represented as a Tag */

@@ -26,12 +26,14 @@ import org.apache.sling.testing.mock.osgi.context.ContextPlugin;
 import org.apache.sling.testing.mock.osgi.context.ContextPlugins;
 import org.apache.sling.testing.mock.osgi.context.OsgiContextImpl;
 import org.apache.sling.testing.mock.sling.ResourceResolverType;
+import org.jetbrains.annotations.NotNull;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Builder class for creating {@link AemContext} instances with different sets of parameters.
  */
 @ProviderType
+@SuppressWarnings("null")
 public final class AemContextBuilder {
 
   private final ContextPlugins plugins = new ContextPlugins();
@@ -49,7 +51,7 @@ public final class AemContextBuilder {
    * Create builder with given resource resolver type.
    * @param resourceResolverTypes Resource resolver type(s).
    */
-  public AemContextBuilder(ResourceResolverType... resourceResolverTypes) {
+  public AemContextBuilder(@NotNull ResourceResolverType... resourceResolverTypes) {
     this.resourceResolverType(resourceResolverTypes);
   }
 
@@ -57,7 +59,7 @@ public final class AemContextBuilder {
    * @param types Resource resolver type(s).
    * @return this
    */
-  public AemContextBuilder resourceResolverType(ResourceResolverType... types) {
+  public @NotNull AemContextBuilder resourceResolverType(@NotNull ResourceResolverType... types) {
     this.resourceResolverTypes = types;
     return this;
   }
@@ -68,7 +70,7 @@ public final class AemContextBuilder {
    * @return this
    */
   @SafeVarargs
-  public final <T extends OsgiContextImpl> AemContextBuilder plugin(ContextPlugin<T>... plugin) {
+  public final @NotNull <T extends OsgiContextImpl> AemContextBuilder plugin(@NotNull ContextPlugin<T>... plugin) {
     plugins.addPlugin(plugin);
     return this;
   }
@@ -80,7 +82,7 @@ public final class AemContextBuilder {
    * @return this
    */
   @SafeVarargs
-  public final <T extends OsgiContextImpl> AemContextBuilder beforeSetUp(ContextCallback<T>... beforeSetUpCallback) {
+  public final @NotNull <T extends OsgiContextImpl> AemContextBuilder beforeSetUp(@NotNull ContextCallback<T>... beforeSetUpCallback) {
     plugins.addBeforeSetUpCallback(beforeSetUpCallback);
     return this;
   }
@@ -92,7 +94,7 @@ public final class AemContextBuilder {
    * @return this
    */
   @SafeVarargs
-  public final <T extends OsgiContextImpl> AemContextBuilder afterSetUp(ContextCallback<T>... afterSetUpCallback) {
+  public final @NotNull <T extends OsgiContextImpl> AemContextBuilder afterSetUp(@NotNull ContextCallback<T>... afterSetUpCallback) {
     plugins.addAfterSetUpCallback(afterSetUpCallback);
     return this;
   }
@@ -104,7 +106,7 @@ public final class AemContextBuilder {
    * @return this
    */
   @SafeVarargs
-  public final <T extends OsgiContextImpl> AemContextBuilder beforeTearDown(ContextCallback<T>... beforeTearDownCallback) {
+  public final @NotNull <T extends OsgiContextImpl> AemContextBuilder beforeTearDown(@NotNull ContextCallback<T>... beforeTearDownCallback) {
     plugins.addBeforeTearDownCallback(beforeTearDownCallback);
     return this;
   }
@@ -116,7 +118,7 @@ public final class AemContextBuilder {
    * @return this
    */
   @SafeVarargs
-  public final <T extends OsgiContextImpl> AemContextBuilder afterTearDown(ContextCallback<T>... afterTearDownCallback) {
+  public final @NotNull <T extends OsgiContextImpl> AemContextBuilder afterTearDown(@NotNull ContextCallback<T>... afterTearDownCallback) {
     plugins.addAfterTearDownCallback(afterTearDownCallback);
     return this;
   }
@@ -126,7 +128,7 @@ public final class AemContextBuilder {
    * @param props Configuration properties
    * @return this
    */
-  public AemContextBuilder resourceResolverFactoryActivatorProps(Map<String, Object> props) {
+  public @NotNull AemContextBuilder resourceResolverFactoryActivatorProps(@NotNull Map<String, Object> props) {
     this.resourceResolverFactoryActivatorProps = props;
     return this;
   }
@@ -134,7 +136,7 @@ public final class AemContextBuilder {
   /**
    * @return Build {@link AemContext} instance.
    */
-  public AemContext build() {
+  public @NotNull AemContext build() {
     return new AemContext(this.plugins,
         this.resourceResolverFactoryActivatorProps,
         this.resourceResolverTypes);

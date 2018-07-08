@@ -31,6 +31,7 @@ import com.day.cq.wcm.api.components.ComponentManager;
 /**
  * Mock implementation of {@link ComponentManager}.
  */
+@SuppressWarnings("null")
 class MockComponentManager implements ComponentManager {
 
   private final ResourceResolver resourceResolver;
@@ -51,7 +52,7 @@ class MockComponentManager implements ComponentManager {
   @Override
   public Component getComponentOfResource(Resource resource) {
     String resourceType = resource.getResourceType();
-    if (resourceType != null) {
+    if (resourceType != null && resourceType != Resource.RESOURCE_TYPE_NON_EXISTING) {
       resourceType = ResourceUtil.resourceTypeToPath(resource.getResourceType());
       return getComponent(resourceType);
     }

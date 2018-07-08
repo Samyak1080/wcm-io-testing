@@ -20,6 +20,7 @@
 package io.wcm.testing.mock.aem.context;
 
 import org.apache.sling.api.resource.Resource;
+import org.jetbrains.annotations.NotNull;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -33,7 +34,7 @@ public final class UniqueRoot extends org.apache.sling.testing.mock.sling.contex
 
   private Resource damRoot;
 
-  UniqueRoot(AemContextImpl context) {
+  UniqueRoot(@NotNull AemContextImpl context) {
     super(context);
   }
 
@@ -42,7 +43,7 @@ public final class UniqueRoot extends org.apache.sling.testing.mock.sling.contex
    * The path (incl. all children) is automatically removed when the unit test completes.
    * @return Unique content path
    */
-  public String dam() {
+  public @NotNull String dam() {
     if (damRoot == null) {
       damRoot = getOrCreateResource("/content/dam/" + uniquePathPart, "sling:OrderedFolder");
     }

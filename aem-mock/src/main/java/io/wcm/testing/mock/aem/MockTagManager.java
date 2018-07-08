@@ -44,6 +44,8 @@ import org.apache.sling.api.resource.PersistenceException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.osgi.annotation.versioning.ProviderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,13 +69,13 @@ public final class MockTagManager implements TagManager {
   private static final String TAG_RESOURCE_TYPE = "cq/tagging/components/tag";
 
   /** Root location in the JCR where tags lie */
-  private static final String TAG_ROOT_PATH = detectTagRootPath();
+  private static final @NotNull String TAG_ROOT_PATH = detectTagRootPath();
   private static final String LEGACY_TAG_ROOT_PATH = "/etc/tags";
 
-  private final ResourceResolver resourceResolver;
+  private final @NotNull ResourceResolver resourceResolver;
   private final Logger log;
 
-  MockTagManager(ResourceResolver resourceResolver) {
+  MockTagManager(@NotNull ResourceResolver resourceResolver) {
     this.resourceResolver = resourceResolver;
     log = LoggerFactory.getLogger(TagManager.class);
 
@@ -84,7 +86,7 @@ public final class MockTagManager implements TagManager {
   /**
    * @return Tag root path.
    */
-  public static String getTagRootPath() {
+  public static @NotNull String getTagRootPath() {
     return TAG_ROOT_PATH;
   }
 
@@ -94,7 +96,8 @@ public final class MockTagManager implements TagManager {
    * Otherwise the legacy root paths used by 6.4 and below (/etc/tags).
    * @return Tag root path
    */
-  private static String detectTagRootPath() {
+  @SuppressWarnings("null")
+  private static @NotNull String detectTagRootPath() {
     try {
       Class tagConstantsClass = MockTagManager.class.getClassLoader().loadClass("com.day.cq.tagging.TagConstants");
       Field field = tagConstantsClass.getField("TAG_ROOT_PATH");
@@ -131,7 +134,7 @@ public final class MockTagManager implements TagManager {
     }
   }
 
-  private String getPathFromID(String tagID) throws InvalidTagFormatException {
+  private @NotNull String getPathFromID(@Nullable String tagID) throws InvalidTagFormatException {
     if (tagID == null) {
       throw new InvalidTagFormatException("tagID is null");
     }
@@ -227,6 +230,7 @@ public final class MockTagManager implements TagManager {
     deleteTag(tag, true);
   }
 
+  @SuppressWarnings("null")
   @Override
   public void deleteTag(Tag tag, boolean autoSave) throws AccessControlException {
     try {
@@ -252,6 +256,7 @@ public final class MockTagManager implements TagManager {
     return find(basePath, tagIDs, false);
   }
 
+  @SuppressWarnings("null")
   @Override
   public RangeIterator<Resource> find(String basePath, String[] tagIDs, boolean oneMatchIsEnough) {
     Resource base = resourceResolver.getResource(basePath);
@@ -346,6 +351,7 @@ public final class MockTagManager implements TagManager {
     return haystack.equals(needle) || haystack.startsWith(needle + "/");
   }
 
+  @SuppressWarnings("null")
   private List<Tag> getNamespacesList() {
     Resource tagRoot = resourceResolver.getResource(getTagRootPath());
     List<Tag> namespaces = new ArrayList<Tag>();
@@ -386,6 +392,7 @@ public final class MockTagManager implements TagManager {
     return tags.toArray(new Tag[tags.size()]);
   }
 
+  @SuppressWarnings("null")
   private Collection<Tag> collectResourceTags(Resource resource, boolean recurse) {
     if (resource == null) {
       return Collections.emptyList();
@@ -436,6 +443,7 @@ public final class MockTagManager implements TagManager {
     setTags(resource, tags, true);
   }
 
+  @SuppressWarnings("null")
   @Override
   public void setTags(Resource resource, Tag[] tags, boolean autoSave) {
     ModifiableValueMap props = resource.adaptTo(ModifiableValueMap.class);

@@ -37,6 +37,7 @@ import com.day.cq.dam.commons.util.DamUtil;
 /**
  * Mock implementation of {@link Rendition}.
  */
+@SuppressWarnings("null")
 class MockRendition extends ResourceWrapper implements Rendition {
 
   private final Resource resource;

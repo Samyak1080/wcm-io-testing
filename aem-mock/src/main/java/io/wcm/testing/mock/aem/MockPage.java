@@ -52,6 +52,7 @@ import com.google.common.collect.Iterators;
 /**
  * Mock implementation of {@link Page}.
  */
+@SuppressWarnings("null")
 class MockPage extends SlingAdaptable implements Page {
 
   private static final String RT_LAUNCH = "wcm/launches/components/launch";

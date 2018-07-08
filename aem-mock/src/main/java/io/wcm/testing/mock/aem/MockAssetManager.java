@@ -47,6 +47,7 @@ import io.wcm.testing.mock.aem.builder.ContentBuilder;
 /**
  * Mock implementation of {@link AssetManager}
  */
+@SuppressWarnings("null")
 class MockAssetManager implements AssetManager {
 
   private final ResourceResolver resourceResolver;

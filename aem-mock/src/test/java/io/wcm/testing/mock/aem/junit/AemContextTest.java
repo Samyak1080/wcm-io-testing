@@ -39,6 +39,7 @@ import com.google.common.collect.ImmutableMap;
 import io.wcm.testing.mock.aem.context.TestAemContext;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("null")
 public class AemContextTest {
 
   private final AemContextCallback contextBeforeSetup = mock(AemContextCallback.class);

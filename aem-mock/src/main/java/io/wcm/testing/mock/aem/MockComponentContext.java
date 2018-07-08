@@ -70,6 +70,7 @@ public final class MockComponentContext implements ComponentContext {
     return request.getResource();
   }
 
+  @SuppressWarnings("null")
   @Override
   public Component getComponent() {
     Resource currentResource = getResource();

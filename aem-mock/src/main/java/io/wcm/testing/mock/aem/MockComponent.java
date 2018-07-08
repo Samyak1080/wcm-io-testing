@@ -39,6 +39,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * Mock implementation of {@link Component}.
  */
+@SuppressWarnings("null")
 class MockComponent extends SlingAdaptable implements Component {
 
   private final Resource resource;
